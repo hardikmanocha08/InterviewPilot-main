@@ -84,17 +84,17 @@ export default function HistoryPage() {
     }, [items, sortBy, sortValue]);
 
     return (
-        <div className="h-full overflow-hidden flex flex-col gap-6">
-            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div className="h-full overflow-hidden flex flex-col gap-4 md:gap-6">
+            <div className="flex flex-col gap-4">
                 <div>
-                    <h1 className="text-3xl font-bold text-white mb-2">Interview History</h1>
-                    <p className="text-text-muted">Review all your interview sessions and performance trends.</p>
+                    <h1 className="text-2xl md:text-3xl font-bold text-white mb-1">Interview History</h1>
+                    <p className="text-xs sm:text-sm md:text-base text-text-muted">Review your interview sessions and trends.</p>
                 </div>
-                <div className="flex gap-2">
+                <div className="flex flex-col sm:flex-row gap-2 md:gap-3">
                     <select
                         value={sortBy}
                         onChange={(e) => setSortBy(e.target.value as 'date' | 'score' | 'role')}
-                        className="bg-surface border border-border rounded-lg px-4 py-2 text-white"
+                        className="bg-surface border border-border rounded-lg px-3 py-2 md:px-4 text-white text-sm"
                     >
                         <option value="date">Sort by Date</option>
                         <option value="score">Sort by Score</option>
@@ -103,7 +103,7 @@ export default function HistoryPage() {
                     <select
                         value={sortValue}
                         onChange={(e) => setSortValue(e.target.value)}
-                        className="bg-surface border border-border rounded-lg px-4 py-2 text-white"
+                        className="bg-surface border border-border rounded-lg px-3 py-2 md:px-4 text-white text-sm"
                     >
                         {sortBy === 'date' && (
                             <>
@@ -132,44 +132,48 @@ export default function HistoryPage() {
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="bg-surface border border-border rounded-xl p-4">
-                    <p className="text-text-muted text-sm">Completed</p>
-                    <p className="text-2xl text-white font-bold">{summary.completed}</p>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 md:gap-4">
+                <div className="bg-surface border border-border rounded-lg md:rounded-xl p-3 md:p-4">
+                    <p className="text-text-muted text-xs md:text-sm">Completed</p>
+                    <p className="text-xl md:text-2xl text-white font-bold">{summary.completed}</p>
                 </div>
-                <div className="bg-surface border border-border rounded-xl p-4">
-                    <p className="text-text-muted text-sm">In-progress</p>
-                    <p className="text-2xl text-white font-bold">{summary.inProgress}</p>
+                <div className="bg-surface border border-border rounded-lg md:rounded-xl p-3 md:p-4">
+                    <p className="text-text-muted text-xs md:text-sm">In-progress</p>
+                    <p className="text-xl md:text-2xl text-white font-bold">{summary.inProgress}</p>
                 </div>
-                <div className="bg-surface border border-border rounded-xl p-4">
-                    <p className="text-text-muted text-sm">Average score</p>
-                    <p className="text-2xl text-white font-bold">{summary.avg.toFixed(2)}/10</p>
+                <div className="bg-surface border border-border rounded-lg md:rounded-xl p-3 md:p-4">
+                    <p className="text-text-muted text-xs md:text-sm">Average score</p>
+                    <p className="text-xl md:text-2xl text-white font-bold">{summary.avg.toFixed(2)}/10</p>
                 </div>
             </div>
 
-            <div className="bg-surface border border-border rounded-2xl overflow-hidden flex-1 min-h-0">
+            <div className="bg-surface border border-border rounded-lg md:rounded-2xl overflow-hidden flex-1 min-h-0">
                 <div className="divide-y divide-border overflow-y-auto h-full">
                     {loading ? (
-                        <div className="p-6 text-text-muted">Loading history...</div>
+                        <div className="p-4 md:p-6 text-text-muted text-sm">Loading history...</div>
                     ) : sortedItems.length === 0 ? (
-                        <div className="p-6 text-text-muted">No interview history yet.</div>
+                        <div className="p-4 md:p-6 text-text-muted text-sm">No interview history yet.</div>
                     ) : (
                         sortedItems.map((item) => (
-                            <div key={item._id} className="p-6 flex items-center justify-between">
-                                <div>
-                                    <p className="text-white font-medium">{item.role}</p>
-                                    <p className="text-text-muted text-sm">
-                                        {item.experienceLevel} | {item.industryMode} | {new Date(item.updatedAt).toLocaleString()}
+                            <div key={item._id} className="p-3 md:p-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                                <div className="min-w-0">
+                                    <p className="text-white font-medium text-sm md:text-base">{item.role}</p>
+                                    <p className="text-text-muted text-xs md:text-sm truncate">
+                                        {item.experienceLevel} | {item.industryMode} | {new Date(item.updatedAt).toLocaleDateString()}
                                     </p>
                                 </div>
-                                <div className="text-right">
-                                    <p className="text-sm text-text-muted capitalize">{item.status}</p>
-                                    <p className="font-bold text-accent">{Number(item.score || 0).toFixed(1)}</p>
+                                <div className="flex items-center justify-between md:flex-col md:items-end gap-3 md:gap-0">
+                                    <div className="flex items-center gap-3">
+                                        <div className="text-right">
+                                            <p className="text-xs text-text-muted capitalize">{item.status}</p>
+                                            <p className="text-base md:text-lg font-bold text-accent">{Number(item.score || 0).toFixed(1)}</p>
+                                        </div>
+                                    </div>
                                     <Link
                                         href={`/dashboard/history/${item._id}`}
-                                        className="inline-block mt-2 text-sm text-primary hover:text-primary-hover"
+                                        className="inline-block text-xs md:text-sm text-primary hover:text-primary-hover whitespace-nowrap"
                                     >
-                                        View Analysis
+                                        View
                                     </Link>
                                 </div>
                             </div>

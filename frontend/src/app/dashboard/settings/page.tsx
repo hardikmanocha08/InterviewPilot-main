@@ -99,24 +99,24 @@ export default function SettingsPage() {
     }, [form.settings.darkMode]);
 
     if (loading) {
-        return <div className="text-text-muted">Loading settings...</div>;
+        return <div className="text-text-muted text-sm">Loading settings...</div>;
     }
 
     return (
-        <div className="max-w-3xl h-full overflow-hidden flex flex-col gap-4">
+        <div className="mx-auto h-full overflow-hidden flex flex-col gap-4">
             <div>
-                <h1 className="text-3xl font-bold text-white mb-1">Settings</h1>
-                <p className="text-text-muted">Update your interview preferences and profile defaults.</p>
+                <h1 className="text-2xl md:text-3xl font-bold text-white mb-1">Settings</h1>
+                <p className="text-xs sm:text-sm md:text-base text-text-muted">Update your interview preferences and profile defaults.</p>
             </div>
 
-            <form onSubmit={saveSettings} className="bg-surface border border-border rounded-2xl p-5 space-y-4 flex-1 min-h-0">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <form onSubmit={saveSettings} className="bg-surface border border-border rounded-xl md:rounded-2xl p-3 md:p-5 space-y-4 flex-1 min-h-0 overflow-y-auto">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
                 <div>
-                    <label className="text-sm text-text-muted block mb-1">Target Role</label>
+                    <label className="text-xs md:text-sm text-text-muted block mb-1 md:mb-2">Target Role</label>
                     <select
                         value={form.role}
                         onChange={(e) => setForm((prev) => ({ ...prev, role: e.target.value }))}
-                        className="w-full bg-background border border-border rounded-lg px-4 py-2 text-white"
+                        className="w-full bg-background border border-border rounded-lg px-3 md:px-4 py-2 md:py-2.5 text-white text-sm"
                     >
                         <option value="Frontend">Frontend Engineer</option>
                         <option value="Backend">Backend Engineer</option>
@@ -126,11 +126,11 @@ export default function SettingsPage() {
                 </div>
 
                 <div>
-                    <label className="text-sm text-text-muted block mb-1">Experience Level</label>
+                    <label className="text-xs md:text-sm text-text-muted block mb-1 md:mb-2">Experience Level</label>
                     <select
                         value={form.experienceLevel}
                         onChange={(e) => setForm((prev) => ({ ...prev, experienceLevel: e.target.value }))}
-                        className="w-full bg-background border border-border rounded-lg px-4 py-2 text-white"
+                        className="w-full bg-background border border-border rounded-lg px-3 md:px-4 py-2 md:py-2.5 text-white text-sm"
                     >
                         <option value="Fresher">Fresher</option>
                         <option value="1-3 years">1-3 years</option>
@@ -140,11 +140,11 @@ export default function SettingsPage() {
                 </div>
 
                 <div>
-                    <label className="text-sm text-text-muted block mb-1">Industry Mode</label>
+                    <label className="text-xs md:text-sm text-text-muted block mb-1 md:mb-2">Industry Mode</label>
                     <select
                         value={form.industryMode}
                         onChange={(e) => setForm((prev) => ({ ...prev, industryMode: e.target.value as SettingsForm['industryMode'] }))}
-                        className="w-full bg-background border border-border rounded-lg px-4 py-2 text-white"
+                        className="w-full bg-background border border-border rounded-lg px-3 md:px-4 py-2 md:py-2.5 text-white text-sm"
                     >
                         <option value="Product company">Product company</option>
                         <option value="Service company">Service company</option>
@@ -154,7 +154,7 @@ export default function SettingsPage() {
                 </div>
 
                 <div>
-                    <label className="text-sm text-text-muted block mb-1">Default Question Count</label>
+                    <label className="text-xs md:text-sm text-text-muted block mb-1 md:mb-2">Default Question Count</label>
                     <input
                         type="number"
                         min={3}
@@ -169,12 +169,12 @@ export default function SettingsPage() {
                                 },
                             }))
                         }
-                        className="w-full bg-background border border-border rounded-lg px-4 py-2 text-white"
+                        className="w-full bg-background border border-border rounded-lg px-3 md:px-4 py-2 md:py-2.5 text-white text-sm"
                     />
                 </div>
 
-                <div>
-                    <label className="text-sm text-text-muted block mb-1">Notification Email</label>
+                <div className="col-span-1 md:col-span-2">
+                    <label className="text-xs md:text-sm text-text-muted block mb-1 md:mb-2">Notification Email</label>
                     <input
                         type="email"
                         value={form.settings.notificationEmail}
@@ -187,14 +187,14 @@ export default function SettingsPage() {
                                 },
                             }))
                         }
-                        className="w-full bg-background border border-border rounded-lg px-4 py-2 text-white"
+                        className="w-full bg-background border border-border rounded-lg px-3 md:px-4 py-2 md:py-2.5 text-white text-sm"
                         placeholder="you@example.com"
                     />
                 </div>
                 </div>
 
-                <div className="space-y-3">
-                    <label className="flex items-center justify-between text-white">
+                <div className="space-y-2 md:space-y-3 pt-2 md:pt-4 border-t border-border">
+                    <label className="flex items-center justify-between text-white text-sm md:text-base cursor-pointer hover:bg-white/5 px-2 py-2 rounded">
                         <span>Email Notifications</span>
                         <input
                             type="checkbox"
@@ -208,9 +208,10 @@ export default function SettingsPage() {
                                     },
                                 }))
                             }
+                            className="accent-primary"
                         />
                     </label>
-                    <label className="flex items-center justify-between text-white">
+                    <label className="flex items-center justify-between text-white text-sm md:text-base cursor-pointer hover:bg-white/5 px-2 py-2 rounded">
                         <span>Dark Mode</span>
                         <input
                             type="checkbox"
@@ -224,26 +225,29 @@ export default function SettingsPage() {
                                     },
                                 }))
                             }
+                            className="accent-primary"
                         />
                     </label>
                 </div>
 
-                <button
-                    type="submit"
-                    disabled={saving}
-                    className="bg-primary hover:bg-primary-hover disabled:opacity-70 text-white px-5 py-2 rounded-lg"
-                >
-                    {saving ? 'Saving...' : 'Save Settings'}
-                </button>
-                <button
-                    type="button"
-                    onClick={sendTestEmail}
-                    disabled={sendingEmail}
-                    className="ml-3 bg-accent hover:bg-green-600 disabled:opacity-70 text-white px-5 py-2 rounded-lg"
-                >
-                    {sendingEmail ? 'Sending...' : 'Send Test Email'}
-                </button>
-                {message && <p className="text-sm text-text-muted">{message}</p>}
+                <div className="flex flex-col sm:flex-row gap-2 md:gap-3 pt-4 border-t border-border">
+                    <button
+                        type="submit"
+                        disabled={saving}
+                        className="bg-primary hover:bg-primary-hover disabled:opacity-70 text-white px-4 md:px-5 py-2 md:py-2.5 rounded-lg text-sm md:text-base font-medium transition-colors"
+                    >
+                        {saving ? 'Saving...' : 'Save Settings'}
+                    </button>
+                    <button
+                        type="button"
+                        onClick={sendTestEmail}
+                        disabled={sendingEmail}
+                        className="bg-accent hover:bg-green-600 disabled:opacity-70 text-white px-4 md:px-5 py-2 md:py-2.5 rounded-lg text-sm md:text-base font-medium transition-colors"
+                    >
+                        {sendingEmail ? 'Sending...' : 'Test Email'}
+                    </button>
+                </div>
+                {message && <p className="text-xs md:text-sm text-green-400 bg-green-400/10 border border-green-400/30 rounded p-2">{message}</p>}
             </form>
         </div>
     );

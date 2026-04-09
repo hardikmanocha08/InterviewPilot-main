@@ -279,23 +279,24 @@ export default function InterviewRoom() {
 
     return (
         <div className="h-screen bg-background flex flex-col md:flex-row overflow-hidden relative">
-            {/* Left panel: Info  & Progress */}
-            <div className="w-full md:w-1/3 bg-surface border-r border-border p-6 flex flex-col h-full overflow-hidden">
-                <div className="mb-8">
+            {/* Left panel: Info  & Progress - Mobile: Top, Desktop: Left */}
+            <div className="w-full md:w-1/3 bg-surface border-b md:border-b-0 md:border-r border-border p-3 md:p-6 flex flex-col h-auto md:h-full overflow-hidden order-first md:order-none">
+                <div className="mb-4 md:mb-8">
                     <div className="flex items-center justify-between gap-3 mb-1">
-                        <h2 className="text-sm font-semibold text-primary uppercase tracking-wider">Interview Session</h2>
+                        <h2 className="text-xs md:text-sm font-semibold text-primary uppercase tracking-wider">Interview</h2>
                         <button
                             onClick={() => handleFinishInterview('manual')}
                             disabled={finishing}
-                            className="bg-red-500 hover:bg-red-600 disabled:opacity-70 text-white px-3 py-1.5 rounded-lg font-semibold shadow-lg text-xs flex items-center space-x-1.5 whitespace-nowrap"
+                            className="bg-red-500 hover:bg-red-600 disabled:opacity-70 text-white px-2 md:px-3 py-1 md:py-1.5 rounded-lg font-semibold shadow-lg text-xs md:text-sm flex items-center space-x-1 whitespace-nowrap"
                         >
-                            <FiXCircle className="w-4 h-4" />
-                            <span>{finishing ? 'Ending...' : 'End Test'}</span>
+                            <FiXCircle className="w-3 md:w-4 h-3 md:h-4" />
+                            <span className="hidden sm:inline">{finishing ? 'Ending...' : 'End Test'}</span>
+                            <span className="sm:hidden">{finishing ? 'End...' : 'End'}</span>
                         </button>
                     </div>
-                    <h1 className="text-2xl font-bold text-white mb-2">{interview.role}</h1>
-                    <div className="flex items-center space-x-2 text-sm text-text-muted">
-                        <span className="bg-white/10 px-2 py-1 rounded">{interview.experienceLevel}</span>
+                    <h1 className="text-lg md:text-2xl font-bold text-white mb-1 md:mb-2">{interview.role}</h1>
+                    <div className="flex items-center space-x-1 md:space-x-2 text-xs md:text-sm text-text-muted flex-wrap">
+                        <span className="bg-white/10 px-2 py-0.5 md:py-1 rounded">{interview.experienceLevel}</span>
                         <span>|</span>
                         <span className="capitalize">{interview.interviewMode}</span>
                         {interview.interviewMode !== 'untimed' && timeLeftSeconds !== null && (
@@ -307,65 +308,65 @@ export default function InterviewRoom() {
                             </>
                         )}
                         <span>|</span>
-                        <span>Question {currentQuestionIndex + 1} of {interview.questions.length}</span>
+                        <span>Q{currentQuestionIndex + 1}/{interview.questions.length}</span>
                     </div>
                 </div>
 
                 {/* Progress List */}
-                <div className="flex-1 overflow-y-auto pr-2 space-y-4">
+                <div className="flex-1 overflow-y-auto pr-2 space-y-2 md:space-y-4 hidden md:flex md:flex-col">
                     {interview.questions.map((q: any, idx: number) => (
                         <div
                             key={idx}
-                            className={`p-4 rounded-xl border ${idx === currentQuestionIndex ? 'border-primary bg-primary/5' : 'border-border bg-background'} transition-colors`}
+                            className={`p-3 md:p-4 rounded-lg md:rounded-xl border text-xs md:text-sm transition-colors ${idx === currentQuestionIndex ? 'border-primary bg-primary/5' : 'border-border bg-background'}`}
                         >
-                            <div className="flex items-center justify-between mb-2">
-                                <span className={`text-sm font-medium ${idx === currentQuestionIndex ? 'text-primary' : 'text-text-muted'}`}>
-                                    Question {idx + 1}
+                            <div className="flex items-center justify-between mb-1 md:mb-2">
+                                <span className={`font-medium ${idx === currentQuestionIndex ? 'text-primary' : 'text-text-muted'}`}>
+                                    Q{idx + 1}
                                 </span>
-                                {q.userAnswer && <FiCheckCircle className="text-green-500 w-5 h-5" />}
+                                {q.userAnswer && <FiCheckCircle className="text-green-500 w-4 h-4" />}
                             </div>
-                            <p className="text-sm text-white line-clamp-2">{q.questionText}</p>
+                            <p className="text-white line-clamp-2">{q.questionText}</p>
                         </div>
                     ))}
                 </div>
             </div>
 
-            {/* Right panel: Chat / Interaction Area */}
-            <div className="w-full md:w-2/3 flex flex-col h-full">
+            {/* Right panel: Chat / Interaction Area - Mobile: Middle/Bottom, Desktop: Right */}
+            <div className="w-full md:w-2/3 flex flex-col h-full order-last">
                 {interview.interviewMode !== 'untimed' && timeLeftSeconds !== null && (
-                    <div className="px-6 md:px-10 pt-6">
-                        <div className="bg-surface border border-border rounded-2xl p-4">
-                            <div className="flex items-center justify-between mb-3">
-                                <p className="text-sm text-text-muted">Question Timer</p>
-                                <p className={`text-2xl font-bold ${timeLeftSeconds <= 20 ? 'text-red-400' : 'text-primary'}`}>
+                    <div className="px-3 md:px-6 pt-3 md:pt-6 hidden md:block">
+                        <div className="bg-surface border border-border rounded-lg md:rounded-2xl p-3 md:p-4">
+                            <div className="flex items-center justify-between mb-2 md:mb-3">
+                                <p className="text-xs md:text-sm text-text-muted">Question Timer</p>
+                                <p className={`text-xl md:text-2xl font-bold ${timeLeftSeconds <= 20 ? 'text-red-400' : 'text-primary'}`}>
                                     {formattedTime}
                                 </p>
                             </div>
-                            <div className="h-2 w-full bg-background rounded-full overflow-hidden">
+                            <div className="h-1.5 md:h-2 w-full bg-background rounded-full overflow-hidden">
                                 <div
                                     className={`h-full transition-all ${timeLeftSeconds <= 20 ? 'bg-red-500' : 'bg-primary'}`}
                                     style={{ width: `${timerPercent}%` }}
                                 />
                             </div>
-                            <p className="text-xs text-text-muted mt-2">
-                                Time up will auto-skip this question. Last question auto-submits interview.
+                            <p className="text-xs text-text-muted mt-1 md:mt-2">
+                                Time up auto-skips. Last Q auto-submits.
                             </p>
                         </div>
                     </div>
                 )}
-                <div className="flex-1 overflow-y-auto p-6 md:p-10 space-y-8">
+                <div className="flex-1 overflow-y-auto p-3 md:p-6 lg:p-10 space-y-4 md:space-y-8">
 
                     {/* AI Question Bubble */}
                     <motion.div
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
-                        className="flex flex-col space-y-2 max-w-2xl"
+                        className="flex flex-col space-y-1 md:space-y-2"
                     >
                         <div className="flex items-center space-x-2">
-                            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white text-xs font-bold">AI</div>
-                            <span className="text-sm font-medium text-text-muted">Interviewer</span>
+                            <div className="w-6 md:w-8 h-6 md:h-8 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white text-xs font-bold">AI</div>
+                            <span className="text-xs md:text-sm font-medium text-text-muted">Interviewer</span>
                         </div>
-                        <div className="bg-surface border border-border p-5 rounded-2xl rounded-tl-sm text-white text-lg leading-relaxed">
+                        <div className="bg-surface border border-border p-3 md:p-5 rounded-lg md:rounded-2xl rounded-tl-sm text-white text-base md:text-lg leading-relaxed">
                             {currentQ.questionText}
                         </div>
                     </motion.div>
@@ -376,13 +377,13 @@ export default function InterviewRoom() {
                             <motion.div
                                 initial={{ opacity: 0, x: 20 }}
                                 animate={{ opacity: 1, x: 0 }}
-                                className="flex flex-col space-y-2 max-w-2xl self-end ml-auto"
+                                className="flex flex-col space-y-1 md:space-y-2 self-end ml-auto max-w-full md:max-w-2xl"
                             >
                                 <div className="flex items-center space-x-2 justify-end">
-                                    <span className="text-sm font-medium text-text-muted">You</span>
-                                    <div className="w-8 h-8 rounded-full bg-border flex items-center justify-center text-white text-xs font-bold">U</div>
+                                    <span className="text-xs md:text-sm font-medium text-text-muted">You</span>
+                                    <div className="w-6 md:w-8 h-6 md:h-8 rounded-full bg-border flex items-center justify-center text-white text-xs font-bold">U</div>
                                 </div>
-                                <div className="bg-primary/20 border border-primary/30 p-5 rounded-2xl rounded-tr-sm text-white text-md leading-relaxed">
+                                <div className="bg-primary/20 border border-primary/30 p-3 md:p-5 rounded-lg md:rounded-2xl rounded-tr-sm text-white text-sm md:text-base leading-relaxed">
                                     {currentQ.userAnswer}
                                 </div>
                             </motion.div>
@@ -396,39 +397,39 @@ export default function InterviewRoom() {
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 0.2 }}
-                                className="pt-4 max-w-3xl"
+                                className="pt-2 md:pt-4 max-w-full"
                             >
-                                <div className="bg-surface border border-border rounded-2xl p-6 shadow-lg">
-                                    <div className="flex items-center justify-between border-b border-border pb-4 mb-4">
-                                        <h3 className="text-lg font-bold text-white flex items-center space-x-2">
-                                            <FiBarChart2 className="w-5 h-5 text-accent" />
-                                            <span>AI Evaluation</span>
+                                <div className="bg-surface border border-border rounded-lg md:rounded-2xl p-3 md:p-6 shadow-lg">
+                                    <div className="flex items-center justify-between border-b border-border pb-2 md:pb-4 mb-2 md:mb-4 gap-2">
+                                        <h3 className="text-sm md:text-lg font-bold text-white flex items-center space-x-1 md:space-x-2 min-w-0">
+                                            <FiBarChart2 className="w-4 md:w-5 h-4 md:h-5 text-accent flex-shrink-0" />
+                                            <span className="truncate">Evaluation</span>
                                         </h3>
-                                        <div className="bg-background px-4 py-1.5 rounded-full border border-border">
-                                            <span className="text-sm text-text-muted">Score: </span>
-                                            <span className="text-lg font-bold text-accent">{currentQ.score}/10</span>
+                                        <div className="bg-background px-2 md:px-4 py-0.5 md:py-1.5 rounded-full border border-border flex-shrink-0">
+                                            <span className="text-xs md:text-sm text-text-muted">Score: </span>
+                                            <span className="text-base md:text-lg font-bold text-accent">{currentQ.score}/10</span>
                                         </div>
                                     </div>
 
-                                    <p className="text-white mb-6 leading-relaxed">{currentQ.feedback}</p>
+                                    <p className="text-white mb-3 md:mb-6 leading-relaxed text-sm md:text-base">{currentQ.feedback}</p>
 
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                        <div className="bg-green-500/10 border border-green-500/20 p-4 rounded-xl">
-                                            <h4 className="text-green-500 font-semibold mb-2 flex items-center space-x-2">
-                                                <FiThumbsUp className="w-4 h-4" />
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4">
+                                        <div className="bg-green-500/10 border border-green-500/20 p-3 md:p-4 rounded-lg md:rounded-xl">
+                                            <h4 className="text-green-500 font-semibold mb-1 md:mb-2 flex items-center space-x-1 text-xs md:text-sm">
+                                                <FiThumbsUp className="w-3 md:w-4 h-3 md:h-4" />
                                                 <span>Strengths</span>
                                             </h4>
-                                            <ul className="list-disc list-inside text-sm text-green-200 space-y-1">
+                                            <ul className="list-disc list-inside text-xs md:text-sm text-green-200 space-y-0.5 md:space-y-1">
                                                 {currentQ.strengths?.map((s: string, i: number) => <li key={i}>{s}</li>)}
                                             </ul>
                                         </div>
 
-                                        <div className="bg-red-500/10 border border-red-500/20 p-4 rounded-xl">
-                                            <h4 className="text-red-500 font-semibold mb-2 flex items-center space-x-2">
-                                                <FiTrendingDown className="w-4 h-4" />
-                                                <span>Areas to Improve</span>
+                                        <div className="bg-red-500/10 border border-red-500/20 p-3 md:p-4 rounded-lg md:rounded-xl">
+                                            <h4 className="text-red-500 font-semibold mb-1 md:mb-2 flex items-center space-x-1 text-xs md:text-sm">
+                                                <FiTrendingDown className="w-3 md:w-4 h-3 md:h-4" />
+                                                <span>Improve</span>
                                             </h4>
-                                            <ul className="list-disc list-inside text-sm text-red-200 space-y-1">
+                                            <ul className="list-disc list-inside text-xs md:text-sm text-red-200 space-y-0.5 md:space-y-1">
                                                 {currentQ.weaknesses?.map((w: string, i: number) => <li key={i}>{w}</li>)}
                                             </ul>
                                         </div>
@@ -440,9 +441,9 @@ export default function InterviewRoom() {
 
                     {/* Evaluating State Loader */}
                     {evaluating && (
-                        <div className="flex items-center space-x-3 text-text-muted italic animate-pulse">
-                            <div className="w-6 h-6 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white text-[10px]">AI</div>
-                            <span>Analyzing your response...</span>
+                        <div className="flex items-center space-x-2 text-text-muted italic animate-pulse text-xs md:text-base">
+                            <div className="w-5 h-5 md:w-6 md:h-6 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white text-[10px] flex-shrink-0">AI</div>
+                            <span>Analyzing...</span>
                         </div>
                     )}
 
@@ -450,45 +451,43 @@ export default function InterviewRoom() {
                 </div>
 
                 {/* Input Area */}
-                <div className="p-6 border-t border-border bg-surface/50 backdrop-blur-md">
+                <div className="p-3 md:p-6 border-t border-border bg-surface/50 backdrop-blur-md">
                     {!isAnswered ? (
-                        <div className="relative flex flex-col items-end">
+                        <div className="relative flex flex-col items-end gap-2">
                             <textarea
                                 value={answerInput}
                                 onChange={(e) => setAnswerInput(e.target.value)}
-                                placeholder="Type your answer here..."
+                                placeholder="Type your answer..."
                                 disabled={evaluating || finishing}
-                                className="w-full bg-background border border-border rounded-xl px-4 py-4 pr-16 text-white focus:outline-none focus:border-primary resize-none min-h-[120px] transition-colors"
+                                className="w-full bg-background border border-border rounded-lg md:rounded-xl px-3 md:px-4 py-3 md:py-4 pr-12 md:pr-16 text-white focus:outline-none focus:border-primary resize-none min-h-[80px] md:min-h-[120px] transition-colors text-sm md:text-base"
                             />
 
-                            <div className="absolute bottom-4 right-4 flex space-x-2">
-                                <button
-                                    onClick={handleAnswerSubmit}
-                                    disabled={evaluating || finishing || !answerInput.trim()}
-                                    className="p-3 bg-primary hover:bg-primary-hover disabled:bg-border disabled:text-text-muted text-white rounded-lg transition-colors"
-                                    title="Submit Answer"
-                                >
-                                    <FiSend className="w-5 h-5" />
-                                </button>
-                            </div>
+                            <button
+                                onClick={handleAnswerSubmit}
+                                disabled={evaluating || finishing || !answerInput.trim()}
+                                className="p-2 md:p-3 bg-primary hover:bg-primary-hover disabled:bg-border disabled:text-text-muted text-white rounded-lg transition-colors absolute bottom-3 md:bottom-4 right-3 md:right-4"
+                                title="Submit Answer"
+                            >
+                                <FiSend className="w-4 md:w-5 h-4 md:h-5" />
+                            </button>
                         </div>
                     ) : (
-                        <div className="flex justify-end space-x-4">
+                        <div className="flex justify-end gap-2 md:gap-4">
                             {currentQuestionIndex < interview.questions.length - 1 ? (
                                 <button
                                     onClick={handleNextQuestion}
-                                    className="bg-primary hover:bg-primary-hover text-white px-6 py-3 rounded-xl font-medium transition-colors flex items-center space-x-2"
+                                    className="bg-primary hover:bg-primary-hover text-white px-4 md:px-6 py-2 md:py-3 rounded-lg md:rounded-xl font-medium transition-colors flex items-center space-x-1 md:space-x-2 text-sm md:text-base"
                                 >
-                                    <span>Next Question</span>
-                                    <FiChevronRight className="w-5 h-5" />
+                                    <span>Next</span>
+                                    <FiChevronRight className="w-4 md:w-5 h-4 md:h-5" />
                                 </button>
                             ) : (
                                 <button
                                     onClick={() => handleFinishInterview('manual')}
                                     disabled={finishing}
-                                    className="bg-accent hover:bg-green-600 text-white px-8 py-3 rounded-xl font-bold transition-colors shadow-lg shadow-green-500/20"
+                                    className="bg-accent hover:bg-green-600 text-white px-6 md:px-8 py-2 md:py-3 rounded-lg md:rounded-xl font-bold transition-colors shadow-lg shadow-green-500/20 text-sm md:text-base"
                                 >
-                                    {finishing ? "Finishing..." : "Complete Interview"}
+                                    {finishing ? "Finishing..." : "Complete"}
                                 </button>
                             )}
                         </div>
